@@ -106,9 +106,10 @@ public class SummaryActivity extends AppCompatActivity {
 
 
 
+        if(this_total_score.score > 0) {
 
-        myRef.child("high_scores").child("total_points").child(myRef.push().getKey()).setValue(this_total_score);
-
+            myRef.child("high_scores").child("total_points").child(myRef.push().getKey()).setValue(this_total_score);
+        }
 
 
     }
@@ -143,6 +144,7 @@ public class SummaryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                finish();
                  Intent intent = new Intent(getApplicationContext(),DojoActivity.class);
                  startActivity(intent);
 
@@ -156,6 +158,7 @@ public class SummaryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                finish();
                 Intent intent = new Intent(getApplicationContext(),HighScoresActivity.class);
                 startActivity(intent);
 
@@ -164,7 +167,7 @@ public class SummaryActivity extends AppCompatActivity {
 
 
         userStatsTextView = findViewById(R.id.summary_user_stats);
-        userStatsTextView.setText(FormatStatsText());
+        userStatsTextView.setText(FormatStatsText(profile));
 
 
 
@@ -186,7 +189,7 @@ public class SummaryActivity extends AppCompatActivity {
 
     }
 
-    private String FormatStatsText(){
+    public String FormatStatsText(Profile profile){
 
         StringBuilder sb = new StringBuilder();
 
@@ -197,10 +200,10 @@ public class SummaryActivity extends AppCompatActivity {
         sb.append(profile.levels.skill_add_level.totalXP+stats.addition_correct_count + "/" + profile.levels.skill_add_level.totalXP_until_next_level + "XP" + " \n");
 
         sb.append("Subtraction level: " + profile.levels.skill_subtract_level.levelNumber + " \n");
-        sb.append(profile.levels.skill_subtract_level.totalXP+stats.subtraction_correct_count/4 + "/" + profile.levels.skill_subtract_level.totalXP_until_next_level + "XP" + " \n");
+        sb.append(profile.levels.skill_subtract_level.totalXP+stats.subtraction_correct_count + "/" + profile.levels.skill_subtract_level.totalXP_until_next_level + "XP" + " \n");
 
         sb.append("Multiplication level: " + profile.levels.skill_multiplication_level.levelNumber + " \n");
-        sb.append(profile.levels.skill_multiplication_level.totalXP+stats.multiplication_correct_count/4 + "/" + profile.levels.skill_multiplication_level.totalXP_until_next_level + "XP");
+        sb.append(profile.levels.skill_multiplication_level.totalXP+stats.multiplication_correct_count + "/" + profile.levels.skill_multiplication_level.totalXP_until_next_level + "XP");
 
         return sb.toString();
     }
@@ -214,7 +217,6 @@ public class SummaryActivity extends AppCompatActivity {
 
                 Profile thisProfile =  dataSnapshot.getValue(Profile.class);
 
-                Levels thisLevels = null;
                 myCallback.onProfileCallBack(thisProfile);
 
             }

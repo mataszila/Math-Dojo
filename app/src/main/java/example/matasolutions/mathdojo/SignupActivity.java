@@ -19,6 +19,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.jaredrummler.materialspinner.MaterialSpinner;
+
+import java.util.ArrayList;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -29,11 +32,14 @@ public class SignupActivity extends AppCompatActivity {
     private com.rengwuxian.materialedittext.MaterialEditText password;
     private com.rengwuxian.materialedittext.MaterialEditText confirm_password;
 
+    private MaterialSpinner spinner;
+
     private Button button_register;
 
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     boolean success_register;
+    private String selected_country;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,9 @@ public class SignupActivity extends AppCompatActivity {
 
         email =  findViewById(R.id.signup_email_input);
         username = findViewById(R.id.signup_username_input);
+
+        spinner = findViewById(R.id.signup_country_spinner);
+
         password = findViewById(R.id.signup_password_input);
         confirm_password = findViewById(R.id.signup_password_confirm_input);
         button_register = findViewById(R.id.button_register);
@@ -63,7 +72,29 @@ public class SignupActivity extends AppCompatActivity {
 
                 }
         });
+
+        SetupSpinner();
+
         }
+
+
+    private void SetupSpinner(){
+
+        ArrayList<String> countryNames = new Countries().countryNames;
+
+        spinner.setItems(countryNames);
+
+        spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+
+                selected_country = (String) item;
+
+            }
+        });
+
+
+    }
 
 
 
@@ -102,7 +133,7 @@ public class SignupActivity extends AppCompatActivity {
                                 String id = mAuth.getUid();
 
 
-                                myRef.child("user_data").child(mAuth.getUid()).setValue(new Profile(mAuth.getUid(),username.getText().toString()));
+                                myRef.child("user_data").child(mAuth.getUid()).setValue(new Profile(mAuth.getUid(),username.getText().toString(),selected_country));
 
                                 Intent intent = new Intent(context, WelcomeBackActivity.class);
 

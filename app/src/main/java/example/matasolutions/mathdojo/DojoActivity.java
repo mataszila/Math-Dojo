@@ -156,12 +156,6 @@ public class DojoActivity extends AppCompatActivity {
 
     private void startNewQuestion(){
 
-        if(timer != null){
-
-            timer.cancel();
-        }
-
-
         newQuestion  = new CurrentQuestion(stats.totalCount+1,min,max);
 
          timer = new CountDownTimer(10000, 1000) { // adjust the milli seconds here
@@ -254,12 +248,16 @@ public class DojoActivity extends AppCompatActivity {
             bottomNavigationView.getMenu().getItem(3).setTitle("TOTAL: " + stats.totalCount);
 
 
+            if(timer != null){
+
+                timer.cancel();
+            }
+
             startNewQuestion();
             increaseMinMax();
 
         }
         else{
-            CurrentQuestion readQuestion = newQuestion;
             endTheGame();
         }
 

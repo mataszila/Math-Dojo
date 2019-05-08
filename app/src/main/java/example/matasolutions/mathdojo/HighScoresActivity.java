@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.flags.Flag;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -47,6 +49,7 @@ public class HighScoresActivity extends AppCompatActivity {
     LinearLayout totalPointsHeader;
     LinearLayout xpHeader;
 
+    MaterialSpinner spinner;
 
 
     @Override
@@ -94,13 +97,24 @@ public class HighScoresActivity extends AppCompatActivity {
 
                     case R.id.high_scores_navbar_most_points:
                         setTitle("High Scores:  Most points in a single game");
+
                         SetupMostPointsRecyclerView();
 
                         break;
                     case R.id.high_scores_navbar_most_XP:
                         setTitle("High Scores: Most XP");
 
-                        SetupMostXPRecyclerView();
+                        SetupMostXPRecyclerView(profileList);
+
+                        spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+
+                               SetupMostXPRecyclerView(Filtered_XP_ByCountry_List((String) item));
+                               setTitle("High Scores: Most XP - "  +(String) item);
+
+                            }
+                        });
 
 
 
@@ -112,6 +126,37 @@ public class HighScoresActivity extends AppCompatActivity {
         });
 
     }
+
+    public ArrayList<Profile> Filtered_XP_ByCountry_List(String country){
+
+        ArrayList<Profile> newList = new ArrayList<>();
+
+        if(country.equals("Global")){
+
+            return profileList;
+        }
+        else{
+
+            for(int i=0;i<profileList.size();i++){
+
+                if(profileList.get(i).selected_country.equals(country)){
+
+                    newList.add(profileList.get(i));
+
+                }
+
+
+
+            }
+
+
+
+        }
+
+        return newList;
+
+    }
+
 
     public void SortByLevel(){
 
@@ -134,6 +179,8 @@ public class HighScoresActivity extends AppCompatActivity {
 
     public void SetupActivity(){
 
+        SetupSpinner();
+
         SortHighScores();
 
         SetupBottomNavigationView();
@@ -150,8 +197,20 @@ public class HighScoresActivity extends AppCompatActivity {
 
     }
 
+    public void SetupSpinner(){
+
+        spinner = findViewById(R.id.high_scores_country_spinner);
+        spinner.setItems(new Countries().countryNames);
+
+
+    }
+
+
+
 
     private void SetupMostPointsRecyclerView(){
+
+        SortHighScores_Levels();
 
         RecyclerView recyclerView = findViewById(R.id.high_scores_recycler_view);
 
@@ -167,11 +226,11 @@ public class HighScoresActivity extends AppCompatActivity {
         recyclerView.setAdapter(myAdapter);
 
     }
-    private void SetupMostXPRecyclerView(){
+    private void SetupMostXPRecyclerView(ArrayList<Profile> profileList){
 
         RecyclerView recyclerView = findViewById(R.id.high_scores_recycler_view);
 
-        SortByLevel();
+        SortHighScores_Levels();
 
         MyXPAdapter myXPAdapter = new MyXPAdapter(profileList,getApplicationContext());
 
@@ -205,6 +264,23 @@ public class HighScoresActivity extends AppCompatActivity {
         });
 
     }
+
+    public void SortHighScores_Levels() {
+
+        Collections.sort(profileList, new Comparator<Profile>() {
+            @Override
+            public int compare(Profile lhs, Profile rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+
+                double p1 = lhs.levels.playerLevel.totalXP;
+                double p2 = rhs.levels.playerLevel.totalXP;
+
+                return Double.compare(p2, p1);
+            }
+        });
+
+    }
+
 
     void ReadData(final MyHighScoresCallback myCallback){
 

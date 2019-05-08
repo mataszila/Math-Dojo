@@ -12,6 +12,8 @@ public class Profile {
 
     public String userID;
 
+    public String selected_country;
+
 
     public String username;
 
@@ -20,7 +22,7 @@ public class Profile {
     }
 
 
-    public Profile(String userID,String username){
+    public Profile(String userID,String username, String selected_country){
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -28,6 +30,8 @@ public class Profile {
         this.userID = userID;
 
         levels = new Levels(true);
+
+        this.selected_country  = selected_country;
 
         this.username = username;
 

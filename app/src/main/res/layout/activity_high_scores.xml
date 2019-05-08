@@ -13,8 +13,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
->
+    android:orientation="vertical">
+
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:padding="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:textSize="18dp"
+        android:fontFamily="sans-serif"
+        app:ms_background_color="#FAFAFA"
+        app:ms_text_color="#808080"
+        android:layout_height="wrap_content"
+        android:id="@+id/high_scores_country_spinner">
+
+
+    </com.jaredrummler.materialspinner.MaterialSpinner>
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
