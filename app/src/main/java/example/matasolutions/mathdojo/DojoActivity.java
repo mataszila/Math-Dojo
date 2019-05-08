@@ -3,8 +3,10 @@ package example.matasolutions.mathdojo;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +20,8 @@ import org.w3c.dom.Text;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class DojoActivity extends AppCompatActivity {
 
@@ -31,6 +35,8 @@ public class DojoActivity extends AppCompatActivity {
 
     GameStatistics stats;
 
+    TextView dojo_timer_textView;
+
     Profile profile;
     ArrayList<Long> answers;
 
@@ -39,15 +45,18 @@ public class DojoActivity extends AppCompatActivity {
 
     Double multiplier;
 
-    TextView dojo_add_score;
-    TextView dojo_subtract_score;
-    TextView dojo_multiply_score;
-    TextView dojo_total_score;
-
     Long min;
     Long max;
 
     private Menu menu;
+
+    CountDownTimer timer;
+
+
+    static public int interval = 10;
+    static int delay = 1000;
+    static int period = 1000;
+
 
     BottomNavigationView bottomNavigationView;
 
@@ -73,8 +82,13 @@ public class DojoActivity extends AppCompatActivity {
         min = 2L;
         max = 10L;
 
+
+
         question_number_textview = findViewById(R.id.dojo_question_number_textview);
         question_textView = findViewById(R.id.dojo_question_textview);
+
+        dojo_timer_textView = findViewById(R.id.dojo_timer_textview);
+
 
         answer_one_button = findViewById(R.id.answer_one_button);
         answer_two_button = findViewById(R.id.answer_two_button);
@@ -130,6 +144,7 @@ public class DojoActivity extends AppCompatActivity {
         int index = rn.nextInt(max - min + 1 ) + min ;
 
 
+
         Long ans = answers.get(index);
 
         answers.remove(index);
@@ -138,8 +153,32 @@ public class DojoActivity extends AppCompatActivity {
 
     }
 
+
     private void startNewQuestion(){
+
+        if(timer != null){
+
+            timer.cancel();
+        }
+
+
         newQuestion  = new CurrentQuestion(stats.totalCount+1,min,max);
+
+         timer = new CountDownTimer(10000, 1000) { // adjust the milli seconds here
+
+            public void onTick(long millisUntilFinished) {
+                dojo_timer_textView.setText(String.valueOf((int)millisUntilFinished/1000));
+            }
+
+            public void onFinish() {
+                dojo_timer_textView.setText("0");
+                endTheGame();
+            }
+        }.start();
+
+
+
+
         question_number_textview.setText("Question " + String.valueOf(stats.totalCount+1));
         question_textView.setText(newQuestion.GetQuestionString());
 
@@ -189,9 +228,11 @@ public class DojoActivity extends AppCompatActivity {
 
     private void CalculateAnswer(Button button){
 
-        Long answer = Long.parseLong((String) button.getText());
+        newQuestion.selected_answer = Long.parseLong((String) button.getText());
 
-        if(answer.equals(newQuestion.correct_answer)){
+
+
+        if(newQuestion.selected_answer.equals(newQuestion.correct_answer)){
 
             if(newQuestion.type == QuestionType.ADD){
                 stats.addition_correct_count++;
@@ -243,13 +284,13 @@ public class DojoActivity extends AppCompatActivity {
 
 
     private void endTheGame(){
+        timer.cancel();
 
         Intent intent = new Intent(getApplicationContext(),SummaryActivity.class);
         intent.putExtra("gameStats",stats);
+        intent.putExtra("lastQuestion",newQuestion);
         finish();
         startActivity(intent);
-
-
 
 
 

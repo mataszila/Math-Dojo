@@ -1,10 +1,15 @@
 package example.matasolutions.mathdojo;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class CurrentQuestion {
+public class CurrentQuestion implements Parcelable {
 
 
     public int question_number;
@@ -19,11 +24,16 @@ public class CurrentQuestion {
     public Long answer_three;
     public Long answer_four;
 
+    public Long selected_answer;
+
     public Long correct_answer;
 
     public long min;
 
+
     ArrayList<Long> list;
+
+
 
     public Long getMin() {
         return min;
@@ -49,6 +59,18 @@ public class CurrentQuestion {
 
     public Long max;
 
+
+
+
+
+
+
+
+
+
+
+
+
     public CurrentQuestion(int question_number,Long min, Long max){
 
         this.min = min;
@@ -59,6 +81,8 @@ public class CurrentQuestion {
 
 
     }
+
+
 
     private void GenerateNewQuestion(){
 
@@ -75,7 +99,6 @@ public class CurrentQuestion {
         switch (type){
 
             case ADD:
-
                 Generate_ADD(min,max);
                 break;
             case SUBTRACT:
@@ -181,6 +204,8 @@ public class CurrentQuestion {
 
 
 
+
+
     public void Generate_SUBTRACT(Long min, Long max){
 
         correct_answer  = number_one  - number_two;
@@ -261,7 +286,104 @@ public class CurrentQuestion {
 
     }
 
+    protected CurrentQuestion(Parcel in) {
+        question_number = in.readInt();
+        number_one = in.readByte() == 0x00 ? null : in.readLong();
+        number_two = in.readByte() == 0x00 ? null : in.readLong();
+        type = (QuestionType) in.readValue(QuestionType.class.getClassLoader());
+        answer_one = in.readByte() == 0x00 ? null : in.readLong();
+        answer_two = in.readByte() == 0x00 ? null : in.readLong();
+        answer_three = in.readByte() == 0x00 ? null : in.readLong();
+        answer_four = in.readByte() == 0x00 ? null : in.readLong();
+        selected_answer = in.readByte() == 0x00 ? null : in.readLong();
+        correct_answer = in.readByte() == 0x00 ? null : in.readLong();
+        min = in.readLong();
+        if (in.readByte() == 0x01) {
+            list = new ArrayList<Long>();
+            in.readList(list, Long.class.getClassLoader());
+        } else {
+            list = null;
+        }
+    }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(question_number);
+        if (number_one == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeLong(number_one);
+        }
+        if (number_two == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeLong(number_two);
+        }
+        dest.writeValue(type);
+        if (answer_one == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeLong(answer_one);
+        }
+        if (answer_two == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeLong(answer_two);
+        }
+        if (answer_three == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeLong(answer_three);
+        }
+        if (answer_four == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeLong(answer_four);
+        }
+        if (selected_answer == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeLong(selected_answer);
+        }
+        if (correct_answer == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeLong(correct_answer);
+        }
+        dest.writeLong(min);
+        if (list == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(list);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<CurrentQuestion> CREATOR = new Parcelable.Creator<CurrentQuestion>() {
+        @Override
+        public CurrentQuestion createFromParcel(Parcel in) {
+            return new CurrentQuestion(in);
+        }
+
+        @Override
+        public CurrentQuestion[] newArray(int size) {
+            return new CurrentQuestion[size];
+        }
+    };
 
 
 
