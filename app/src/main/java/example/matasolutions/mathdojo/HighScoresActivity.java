@@ -156,12 +156,7 @@ public class HighScoresActivity extends AppCompatActivity {
         }
 
 
-
-
         return list;
-
-
-
 
     }
 
