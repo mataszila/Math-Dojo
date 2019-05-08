@@ -27,6 +27,8 @@ public class Level {
 
         previous_xpLeft = starting_xpLeft;
 
+        xpLeft = starting_xpLeft;
+
     }
 
     public void LevelUp(){

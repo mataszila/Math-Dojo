@@ -276,7 +276,7 @@ public class HighScoresActivity extends AppCompatActivity {
             public TextView place;
             public TextView name;
             public TextView score;
-         //  public LinearLayout layout;
+            //  public LinearLayout layout;
 
 
 
@@ -286,7 +286,7 @@ public class HighScoresActivity extends AppCompatActivity {
                 place =  v.findViewById(R.id.place);
                 name =  v.findViewById(R.id.name);
                 score =  v.findViewById(R.id.score);
-               // layout = v.findViewById(R.id.productprice_recyclerview_layout);
+                // layout = v.findViewById(R.id.productprice_recyclerview_layout);
 
             }
         }
@@ -442,8 +442,5 @@ public class HighScoresActivity extends AppCompatActivity {
 
     }
 
-
-
 }
-
 

@@ -269,7 +269,14 @@ public class DojoActivity extends AppCompatActivity {
 
     private void increaseMinMax(){
 
-        multiplier = multiplier * 1.02;
+        if(stats.totalCount >= 20){
+            multiplier = multiplier * 1.01;
+        }
+        if(stats.totalCount < 20){
+            multiplier = multiplier * 1.02;
+
+        }
+
 
         Double newMin = new Double(min * multiplier);
         Double newMax = new Double(max * multiplier);

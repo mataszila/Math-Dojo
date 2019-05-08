@@ -83,7 +83,7 @@ public class SummaryActivity extends AppCompatActivity {
     public void AssignXP(){
 
 
-        profile.levels.playerLevel.addXP(stats.totalCount);
+        profile.levels.playerLevel.addXP(stats.totalCount*0.25);
         profile.levels.skill_add_level.addXP(stats.addition_correct_count);
         profile.levels.skill_subtract_level.addXP(stats.subtraction_correct_count);
         profile.levels.skill_multiplication_level.addXP(stats.multiplication_correct_count);
@@ -180,10 +180,7 @@ public class SummaryActivity extends AppCompatActivity {
         sb.append("You selected : " + String.valueOf(lastQuestion.selected_answer));
 
 
-
-
         return sb.toString();
-
 
 
 
@@ -194,16 +191,16 @@ public class SummaryActivity extends AppCompatActivity {
         StringBuilder sb = new StringBuilder();
 
         sb.append("Overall level: " + profile.levels.playerLevel.levelNumber + " \n");
-        sb.append(profile.levels.playerLevel.totalXP+stats.totalCount + "/" + profile.levels.playerLevel.totalXP_until_next_level + "XP" + " \n");
+        sb.append(profile.levels.playerLevel.totalXP+( (long) stats.totalCount*0.25) + "/" + profile.levels.playerLevel.totalXP_until_next_level + "XP" + " \n");
 
         sb.append("Addition level: " + profile.levels.skill_add_level.levelNumber + " \n");
         sb.append(profile.levels.skill_add_level.totalXP+stats.addition_correct_count + "/" + profile.levels.skill_add_level.totalXP_until_next_level + "XP" + " \n");
 
         sb.append("Subtraction level: " + profile.levels.skill_subtract_level.levelNumber + " \n");
-        sb.append(profile.levels.skill_subtract_level.totalXP+stats.subtraction_correct_count + "/" + profile.levels.skill_subtract_level.totalXP_until_next_level + "XP" + " \n");
+        sb.append(profile.levels.skill_subtract_level.totalXP+stats.subtraction_correct_count/4 + "/" + profile.levels.skill_subtract_level.totalXP_until_next_level + "XP" + " \n");
 
         sb.append("Multiplication level: " + profile.levels.skill_multiplication_level.levelNumber + " \n");
-        sb.append(profile.levels.skill_multiplication_level.totalXP+stats.multiplication_correct_count + "/" + profile.levels.skill_multiplication_level.totalXP_until_next_level + "XP");
+        sb.append(profile.levels.skill_multiplication_level.totalXP+stats.multiplication_correct_count/4 + "/" + profile.levels.skill_multiplication_level.totalXP_until_next_level + "XP");
 
         return sb.toString();
     }
