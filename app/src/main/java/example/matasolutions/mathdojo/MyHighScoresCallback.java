@@ -4,5 +4,5 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public interface MyHighScoresCallback {
-    public void onHighScoresCallback(ArrayList<ScoreEntry> scoreEntries);
+    public void onHighScoresCallback(ArrayList<ScoreEntry> scoreEntries, ArrayList<Profile> profiles);
 }

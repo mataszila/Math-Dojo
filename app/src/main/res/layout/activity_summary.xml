@@ -36,11 +36,25 @@
             android:textColor="#232323"
             />
 
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:layout_marginTop="20dp"
+            android:text="Your last question"
+            android:gravity="center"
+            android:id="@+id/last_question_textview"
+            android:textColor="#232323"
+            />
+
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Scores"
+            android:textSize="18dp"
             android:layout_marginTop="20dp"
             android:id="@+id/summary_action_textview"/>
 

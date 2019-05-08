@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +39,15 @@ public class HighScoresActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
 
+    ArrayList<Profile> profileList;
+
+    FirebaseAuth mAuth;
+    FirebaseUser user;
+
+    LinearLayout totalPointsHeader;
+    LinearLayout xpHeader;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +57,21 @@ public class HighScoresActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
 
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+
+        totalPointsHeader = findViewById(R.id.high_scores_total_points_header);
+        xpHeader = findViewById(R.id.high_scores_xp_header);
+
+
         setTitle("High Scores");
 
         ReadData(new MyHighScoresCallback() {
             @Override
-            public void onHighScoresCallback(ArrayList<ScoreEntry> scoreEntries) {
+            public void onHighScoresCallback(ArrayList<ScoreEntry> scoreEntries, ArrayList<Profile> profiles) {
 
                 this_score_entries = scoreEntries;
+                profileList = profiles;
                 SetupActivity();
             }
         });
@@ -75,15 +94,40 @@ public class HighScoresActivity extends AppCompatActivity {
 
                     case R.id.high_scores_navbar_most_points:
                         setTitle("High Scores:  Most points in a single game");
+                        SetupMostPointsRecyclerView();
+
                         break;
                     case R.id.high_scores_navbar_most_XP:
                         setTitle("High Scores: Most XP");
+
+                        SetupMostXPRecyclerView();
+
+
+
                         break;
                 }
 
                 return false;
             }
         });
+
+    }
+
+    public void SortByLevel(){
+
+        Collections.sort(profileList, new Comparator<Profile>() {
+            @Override
+            public int compare(Profile lhs, Profile rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+
+                double p1 = lhs.levels.playerLevel.levelNumber;
+                double p2 = rhs.levels.playerLevel.levelNumber;
+
+
+                return Double.compare(p2, p1);
+            }
+        });
+
 
     }
 
@@ -106,6 +150,45 @@ public class HighScoresActivity extends AppCompatActivity {
 
     }
 
+
+    private void SetupMostPointsRecyclerView(){
+
+        RecyclerView recyclerView = findViewById(R.id.high_scores_recycler_view);
+
+        MyAdapter myAdapter = new MyAdapter(this_score_entries,getApplicationContext());
+
+        LinearLayoutManager  layoutManager = new LinearLayoutManager(this);
+
+        recyclerView.setLayoutManager(layoutManager);
+
+        xpHeader.setVisibility(View.GONE);
+        totalPointsHeader.setVisibility(View.VISIBLE);
+
+        recyclerView.setAdapter(myAdapter);
+
+    }
+    private void SetupMostXPRecyclerView(){
+
+        RecyclerView recyclerView = findViewById(R.id.high_scores_recycler_view);
+
+        SortByLevel();
+
+        MyXPAdapter myXPAdapter = new MyXPAdapter(profileList,getApplicationContext());
+
+        LinearLayoutManager  layoutManager = new LinearLayoutManager(getApplicationContext());
+
+        recyclerView.setLayoutManager(layoutManager);
+
+        xpHeader.setVisibility(View.VISIBLE);
+        totalPointsHeader.setVisibility(View.GONE);
+
+        recyclerView.setAdapter(myXPAdapter);
+
+    }
+
+
+
+
     public void SortHighScores() {
 
         Collections.sort(this_score_entries, new Comparator<ScoreEntry>() {
@@ -125,13 +208,15 @@ public class HighScoresActivity extends AppCompatActivity {
 
     void ReadData(final MyHighScoresCallback myCallback){
 
-        myRef.child("high_scores").child("total_points").addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                ArrayList<ScoreEntry> scoreEntriesReturned =  ConvertSnapshot(dataSnapshot);
+                ArrayList<ScoreEntry> scoreEntriesReturned =  ConvertSnapshot(dataSnapshot.child("high_scores").child("total_points"));
 
-                myCallback.onHighScoresCallback(scoreEntriesReturned);
+                ArrayList<Profile> profileArrayListReturned = ConvertProfileSnapshot(dataSnapshot.child("user_data"));
+
+                myCallback.onHighScoresCallback(scoreEntriesReturned,profileArrayListReturned);
 
             }
 
@@ -154,16 +239,28 @@ public class HighScoresActivity extends AppCompatActivity {
 
 
         }
-
-
-
-
         return list;
 
 
+    }
+
+
+    public ArrayList<Profile> ConvertProfileSnapshot(DataSnapshot snapshot){
+
+        ArrayList<Profile> list = new ArrayList<>();
+
+        for(DataSnapshot snap : snapshot.getChildren()){
+
+            list.add(snap.getValue(Profile.class));
+
+
+
+        }
+        return list;
 
 
     }
+
 
     public static class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         private ArrayList<ScoreEntry> mDataset;
@@ -247,6 +344,105 @@ public class HighScoresActivity extends AppCompatActivity {
             return mDataset.size();
         }
     }
+
+
+
+    public static class MyXPAdapter extends RecyclerView.Adapter<MyXPAdapter.MyXPViewHolder> {
+        private ArrayList<Profile> mDataset;
+        private Context context;
+
+
+        // Provide a reference to the views for each data item
+        // Complex data items may need more than one view per item, and
+        // you provide access to all the views for a data item in a view holder
+        public static class MyXPViewHolder extends RecyclerView.ViewHolder {
+            // each data item is just a string in this case
+
+            public TextView place;
+            public TextView name;
+
+            public TextView level;
+            public TextView xp;
+            //  public LinearLayout layout;
+
+
+
+            public MyXPViewHolder(View v) {
+                super(v);
+
+                place =  v.findViewById(R.id.place);
+                name =  v.findViewById(R.id.name);
+                level =  v.findViewById(R.id.level);
+                xp = v.findViewById(R.id.xp);
+                // layout = v.findViewById(R.id.productprice_recyclerview_layout);
+
+            }
+        }
+
+        // Provide a suitable constructor (depends on the kind of dataset)
+        public MyXPAdapter(ArrayList<Profile> myDataset, Context context) {
+            mDataset = myDataset;
+            this.context = context;
+        }
+
+        // Create new views (invoked by the layout manager)
+        @Override
+        public MyXPAdapter.MyXPViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            // create a new view
+            Context context = parent.getContext();
+            LayoutInflater inflater = LayoutInflater.from(context);
+
+            View v = inflater.inflate(R.layout.high_scores_activity_xp_recycler_view, parent, false);
+
+            MyXPAdapter.MyXPViewHolder vh = new MyXPAdapter.MyXPViewHolder(v);
+            return vh;
+        }
+
+        // Replace the contents of a view (invoked by the layout manager)
+        @Override
+        public void onBindViewHolder(MyXPAdapter.MyXPViewHolder holder, int position) {
+            // - get element from your dataset at this position
+            // - replace the contents of the view with that element
+            final Profile thisProfile = mDataset.get(position);
+
+            final Levels thisEntry = thisProfile.levels;
+
+            // Set item views based on your views and data model
+            TextView place = holder.place;
+            TextView name = holder.name;
+            TextView level  = holder.level;
+            TextView score  = holder.xp;
+
+
+
+
+            place.setText(String.valueOf(position+1));
+            name.setText(trimNumber(String.valueOf(thisProfile.username)));
+            level.setText(trimNumber(String.valueOf(thisEntry.playerLevel.levelNumber)));
+            score.setText(String.valueOf(thisEntry.playerLevel.totalXP));
+
+        }
+
+        // Return the size of your dataset (invoked by the layout manager)
+        @Override
+        public int getItemCount() {
+            return mDataset.size();
+        }
+
+        private String trimNumber(String given){
+
+            if(given.length() > 15){
+                return given.substring(0,15);
+            }
+            else{
+                return given;
+            }
+
+        }
+
+    }
+
+
 
 }
 

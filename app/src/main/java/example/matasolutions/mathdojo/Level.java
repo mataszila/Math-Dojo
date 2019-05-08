@@ -5,44 +5,40 @@ public class Level {
     public int levelNumber;
     public LevelType levelType;
 
-    public int totalXP;
+    public Double totalXP;
 
-    public int totalXP_until_next_level;
+    public Double totalXP_until_next_level;
 
-    public int xpLeft;
+    public Double xpLeft;
 
-    public int previous_xpLeft;
+    public Double starting_xpLeft;
+
+    public Double previous_xpLeft;
 
     public Level(){
 
         levelNumber = 1;
-        totalXP = 0;
+        totalXP = new Double(0);
 
 
-        xpLeft = 20;
+        totalXP_until_next_level = new Double(20);
 
-        totalXP_until_next_level = totalXP + xpLeft;
+        starting_xpLeft = new Double(20);
 
+        previous_xpLeft = starting_xpLeft;
 
     }
 
     public void LevelUp(){
 
 
-        if(totalXP +xpLeft >= totalXP_until_next_level ){
-
-            previous_xpLeft = xpLeft;
-            xpLeft = 0;
-
-        }
-
-        if(totalXP > totalXP_until_next_level){
+        if(totalXP >= totalXP_until_next_level){
 
             levelNumber++;
 
-            Double newXp = new Double(previous_xpLeft + (previous_xpLeft * 1.1));
+            Double newXp =  (previous_xpLeft/2)  + ((previous_xpLeft/2) * 1.1);
 
-            xpLeft = newXp.intValue();
+            previous_xpLeft = newXp;
 
             totalXP_until_next_level = totalXP + newXp.intValue();
 
@@ -54,7 +50,7 @@ public class Level {
 
     }
 
-    public void addXP(int add){
+    public void addXP(double add){
         totalXP += add;
         LevelUp();
 
