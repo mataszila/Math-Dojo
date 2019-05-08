@@ -41,6 +41,16 @@
             />
 
         <Button
+            android:id="@+id/high_scores_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="High Scores"
+            android:background="@color/colorPrimary"
+            android:textColor="#232323"
+            android:layout_gravity="center"
+            />
+
+        <Button
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

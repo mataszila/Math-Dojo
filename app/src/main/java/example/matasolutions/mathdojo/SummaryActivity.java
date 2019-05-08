@@ -39,6 +39,10 @@ public class SummaryActivity extends AppCompatActivity {
 
     TextView userStatsTextView;
 
+    TextView last_question_textview;
+
+    CurrentQuestion lastQuestion;
+
 
     LinearLayout layout;
     @Override
@@ -48,6 +52,8 @@ public class SummaryActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
+
+        lastQuestion = getIntent().getParcelableExtra("lastQuestion");
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -76,7 +82,6 @@ public class SummaryActivity extends AppCompatActivity {
 
     public void AssignXP(){
 
-        int ans = profile.levels.playerLevel.totalXP;
 
         profile.levels.playerLevel.addXP(stats.totalCount);
         profile.levels.skill_add_level.addXP(stats.addition_correct_count);
@@ -116,6 +121,7 @@ public class SummaryActivity extends AppCompatActivity {
         findViewById(R.id.loadingPanel).setVisibility(View.GONE);
 
 
+        last_question_textview = findViewById(R.id.last_question_textview);
 
         total_points_textview = findViewById(R.id.total_points_textview);
 
@@ -128,6 +134,8 @@ public class SummaryActivity extends AppCompatActivity {
         summary_action_textview = findViewById(R.id.summary_action_textview);
 
         summary_action_textview.setText(SetSummaryText());
+
+        last_question_textview.setText(SetLastQuestionText());
 
         startAgainButton = findViewById(R.id.summary_start_again_button);
 
@@ -157,6 +165,24 @@ public class SummaryActivity extends AppCompatActivity {
 
         userStatsTextView = findViewById(R.id.summary_user_stats);
         userStatsTextView.setText(FormatStatsText());
+
+
+
+
+    }
+
+    private String SetLastQuestionText(){
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Last question was:" + "\n");
+        sb.append(lastQuestion.GetQuestionString() + "\n");
+        sb.append("Correct answer was: " + String.valueOf(lastQuestion.correct_answer) + "\n");
+        sb.append("You selected : " + String.valueOf(lastQuestion.selected_answer));
+
+
+
+
+        return sb.toString();
 
 
 

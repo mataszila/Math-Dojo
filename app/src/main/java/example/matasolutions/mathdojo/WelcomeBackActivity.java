@@ -18,6 +18,7 @@ public class WelcomeBackActivity extends AppCompatActivity {
     TextView welcome_back_user;
     Button proceed;
     Button logout;
+    Button high_scores;
 
     FirebaseUser currentUser;
 
@@ -63,6 +64,19 @@ public class WelcomeBackActivity extends AppCompatActivity {
 
             }
         });
+
+        high_scores =  findViewById(R.id.high_scores_button);
+        high_scores.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        startActivity(new Intent(getApplicationContext(),HighScoresActivity.class));
+
+
+                    }
+                }
+        );
 
 
 
