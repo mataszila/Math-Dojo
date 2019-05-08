@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".DojoActivity">
+
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="24dp"
+        android:textColor="#000"
+        android:text="Task No. 1"
+        android:paddingTop="40dp"
+        android:id="@+id/dojo_question_number_textview"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="36dp"
+        android:textColor="#000"
+        android:text="21 * 13"
+        android:paddingBottom="30dp"
+        android:id="@+id/dojo_question_textview"
+
+        />
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        >
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_weight="1"
+                android:text="142"
+                android:textSize="24dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/colorBamboo"
+                android:id="@+id/answer_one_button"
+                android:onClick="buttonClicked"
+                style="@style/Dojo_Button_Style"
+                android:minWidth="1dp"
+               />
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:text="142"
+                android:textSize="24dp"
+
+                android:layout_weight="1"
+                android:id="@+id/answer_two_button"
+                android:onClick="buttonClicked"
+                style="@style/Dojo_Button_Style"
+                android:minWidth="1dp"
+
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_weight="1"
+                android:layout_marginRight="15dp"
+                android:textSize="24dp"
+
+                android:id="@+id/answer_three_button"
+                android:text="142"
+                android:onClick="buttonClicked"
+                style="@style/Dojo_Button_Style"
+                android:minWidth="1dp"
+
+                />
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:text="142"
+                android:textSize="24dp"
+
+                android:layout_weight="1"
+                android:id="@+id/answer_four_button"
+                android:onClick="buttonClicked"
+                style="@style/Dojo_Button_Style"
+                android:minWidth="1dp"
+
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:menu="@menu/dojo_scores_nav_items"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="#232323"
+        app:itemTextColor="#232323"
+
+
+        android:id="@+id/dojo_nav_bar"
+        >
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+
+
+</FrameLayout>

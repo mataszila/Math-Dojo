@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "114561293898",
+    "firebase_url": "https://math-dojo-v2.firebaseio.com",
+    "project_id": "math-dojo-v2",
+    "storage_bucket": "math-dojo-v2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:114561293898:android:189e4d7b1a5ff4f6",
+        "android_client_info": {
+          "package_name": "example.matasolutions.mathdojo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "114561293898-u39sab0ol2pt2accm98le0fpg83nm0er.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "example.matasolutions.mathdojo",
+            "certificate_hash": "0cc1a07e15a4f2e8c5156d518f271e0e4001831a"
+          }
+        },
+        {
+          "client_id": "114561293898-jio6n7eiqb5gucd1ndlfnrdb7n000b25.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApuGfRXrkC-kCFNrbQsOOlLfSHuEMJmTk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "114561293898-jio6n7eiqb5gucd1ndlfnrdb7n000b25.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

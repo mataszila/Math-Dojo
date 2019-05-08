@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/high_scores_navbar_most_points"
+        android:icon="@drawable/ic_outline_star_rate_18px"
+        android:title="MOST POINTS" />
+    <item
+        android:id="@+id/high_scores_navbar_most_XP"
+        android:icon="@drawable/ic_outline_trending_up_24px"
+        android:title="MOST XP" />
+</menu>
