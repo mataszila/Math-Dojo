@@ -135,6 +135,7 @@ public class SignupActivity extends AppCompatActivity {
 
                                 myRef.child("user_data").child(mAuth.getUid()).setValue(new Profile(mAuth.getUid(),username.getText().toString(),selected_country));
 
+                                finish();
                                 Intent intent = new Intent(context, WelcomeBackActivity.class);
 
                                 startActivity(intent);

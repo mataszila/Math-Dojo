@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             register.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    finish();
                     startActivity(new Intent(getApplicationContext(),SignupActivity.class));
                 }
             });
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         else{
 
             Toast.makeText(this, "Welcome back " + currentUser.getEmail() , Toast.LENGTH_LONG);
+            finish();
             startActivity(new Intent(getApplicationContext(),WelcomeBackActivity.class));
         }
 

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.solver.widgets.Snapshot;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -116,8 +118,6 @@ public class HighScoresActivity extends AppCompatActivity {
                             }
                         });
 
-
-
                         break;
                 }
 
@@ -146,9 +146,7 @@ public class HighScoresActivity extends AppCompatActivity {
                 }
 
 
-
             }
-
 
 
         }
@@ -336,7 +334,6 @@ public class HighScoresActivity extends AppCompatActivity {
 
 
     }
-
 
     public static class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         private ArrayList<ScoreEntry> mDataset;

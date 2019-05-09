@@ -83,8 +83,8 @@
                     android:layout_below="@+id/name"
                     android:gravity="center"
                     android:text="Place"
-                    android:textSize="18dp"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textSize="18dp" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

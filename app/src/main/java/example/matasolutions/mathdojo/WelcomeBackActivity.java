@@ -2,15 +2,22 @@ package example.matasolutions.mathdojo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -18,6 +25,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class WelcomeBackActivity extends AppCompatActivity {
 
@@ -25,7 +36,10 @@ public class WelcomeBackActivity extends AppCompatActivity {
     TextView welcome_back_user;
     Button proceed;
     Button logout;
+    Button profile_button;
     Button high_scores;
+
+    ImageView dojo_image;
 
     FirebaseUser currentUser;
 
@@ -38,7 +52,13 @@ public class WelcomeBackActivity extends AppCompatActivity {
 
     LinearLayout layout;
 
+
     TextView user_level_text;
+    RelativeLayout loading;
+
+
+
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,77 +72,127 @@ public class WelcomeBackActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
 
+        layout = findViewById(R.id.welcome_back_activity_layout);
+        loading = findViewById(R.id.welcome_back_loading);
+
+            ReadData(new MyProfileCallback() {
+                @Override
+                public void onProfileCallBack(Profile profileReturned) {
+
+                    profile = profileReturned;
+                    SetupActivity();
 
 
-        ReadData(new MyProfileCallback() {
-            @Override
-            public void onProfileCallBack(Profile profileReturned) {
+                }
+            });
 
-                profile = profileReturned;
-                SetupActivity();
-
-            }
-        });
+        }
 
 
-    }
+
+
 
     void SetupActivity(){
+
+        loading.setVisibility(View.GONE);
+        layout.setVisibility(View.VISIBLE);
+
+        dojo_image = findViewById(R.id.welcome_back_imageView);
+
+        Picasso.get()
+                .load("https://i.imgur.com/H6C61ON.jpg")
+                .resize(720, 540)
+                .centerCrop()
+                .into(dojo_image);
+
 
 
         welcome_back_user = findViewById(R.id.welcome_back_user_textView);
 
-        welcome_back_user.setText("Welcome, " + currentUser.getEmail());
-
-
-        logout = findViewById(R.id.button_logout);
-
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                mAuth.signOut();
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
-            }
-        });
+        welcome_back_user.setText("Welcome, " + profile.username);
 
         proceed = findViewById(R.id.button_proceed);
 
         proceed.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
 
-                Intent intent = new Intent(getApplicationContext(),DojoActivity.class);
+                startActivity(new Intent(getApplicationContext(),DojoActivity.class));
 
-                startActivity(intent);
 
             }
         });
 
-        high_scores =  findViewById(R.id.high_scores_button);
-        high_scores.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+        if(currentUser != null){
 
+            SetupRecyclerView();
+
+        }
+
+        else{
+            RecyclerView recyclerView = findViewById(R.id.welcome_back_recycler_view);
+            recyclerView.setVisibility(View.INVISIBLE);
+        }
+
+        SetupBottomNavigationView();
+    }
+
+    private void SetupBottomNavigationView(){
+
+        bottomNavigationView = findViewById(R.id.welcome_back_bottom_navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                int menuId = menuItem.getItemId();
+
+                switch(menuId){
+
+                    case R.id.welcome_back_nav_profile:
+
+                        Intent intent_profile = new Intent(getApplicationContext(),ProfileActivity.class);
+                        intent_profile.putExtra("profile",profile);
+                        startActivity(intent_profile);
+
+                        break;
+                    case R.id.welcome_back_nav_high_scores:
                         startActivity(new Intent(getApplicationContext(),HighScoresActivity.class));
 
 
-                    }
-                }
-        );
+                        break;
+                    case R.id.welcome_back_nav_high_logout:
+                        mAuth.signOut();
+                        finish();
+                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
 
-        SetupStats();
+                        break;
+                }
+
+                return false;
+            }
+        });
+
     }
 
+    void SetupRecyclerView(){
 
-    void SetupStats(){
+        ArrayList<Level> levels = new ArrayList<>();
 
-        user_level_text = findViewById(R.id.welcome_back_user_level_progress_text);
+        levels.add(profile.levels.playerLevel);
+        levels.add(profile.levels.skill_add_level);
+        levels.add(profile.levels.skill_subtract_level);
+        levels.add(profile.levels.skill_multiplication_level);
 
-        user_level_text.setText(FormatStatsText(profile));
 
+        RecyclerView recyclerView = findViewById(R.id.welcome_back_recycler_view);
+        MyProfileAdapter myAdapter = new MyProfileAdapter(levels,getApplicationContext());
 
+        LinearLayoutManager linearLayoutManager = new  LinearLayoutManager(this);
+
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        recyclerView.setAdapter(myAdapter);
 
 
     }
