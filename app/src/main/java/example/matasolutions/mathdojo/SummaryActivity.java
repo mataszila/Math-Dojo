@@ -67,7 +67,6 @@ public class SummaryActivity extends AppCompatActivity {
 
                 stats = getIntent().getParcelableExtra("gameStats");
 
-
                 SetupViews();
 
                 AssignXP();
@@ -104,12 +103,19 @@ public class SummaryActivity extends AppCompatActivity {
 
         }
 
-
-
         if(this_total_score.score > 0) {
 
             myRef.child("high_scores").child("total_points").child(myRef.push().getKey()).setValue(this_total_score);
         }
+
+        if(this_total_score.score > profile.user_stats.total_points ){
+
+            profile.user_stats.total_points = this_total_score.score;
+
+            myRef.child("user_data").child(mAuth.getUid()).child("user_stats").child("total_points").setValue(profile.user_stats.total_points);
+
+        }
+
 
 
     }

@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         else{
 
             Toast.makeText(this, "Welcome back " + currentUser.getEmail() , Toast.LENGTH_LONG);
+            finish();
             startActivity(new Intent(getApplicationContext(),WelcomeBackActivity.class));
         }
 

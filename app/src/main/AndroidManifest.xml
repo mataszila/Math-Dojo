@@ -20,7 +20,11 @@
         <activity android:name=".SignupActivity" />
         <activity android:name=".DojoActivity" />
         <activity android:name=".SummaryActivity" />
-        <activity android:name=".HighScoresActivity"></activity>
+        <activity android:name=".HighScoresActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2"></activity>
     </application>
 
 </manifest>
