@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -50,7 +52,11 @@ public class WelcomeBackActivity extends AppCompatActivity {
 
     LinearLayout layout;
 
+
     TextView user_level_text;
+    RelativeLayout loading;
+
+
 
     BottomNavigationView bottomNavigationView;
 
@@ -66,24 +72,30 @@ public class WelcomeBackActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
 
+        layout = findViewById(R.id.welcome_back_activity_layout);
+        loading = findViewById(R.id.welcome_back_loading);
+
+            ReadData(new MyProfileCallback() {
+                @Override
+                public void onProfileCallBack(Profile profileReturned) {
+
+                    profile = profileReturned;
+                    SetupActivity();
+
+
+                }
+            });
+
+        }
 
 
 
 
-        ReadData(new MyProfileCallback() {
-            @Override
-            public void onProfileCallBack(Profile profileReturned) {
-
-                profile = profileReturned;
-                SetupActivity();
-
-            }
-        });
-
-
-    }
 
     void SetupActivity(){
+
+        loading.setVisibility(View.GONE);
+        layout.setVisibility(View.VISIBLE);
 
         dojo_image = findViewById(R.id.welcome_back_imageView);
 
@@ -92,6 +104,8 @@ public class WelcomeBackActivity extends AppCompatActivity {
                 .resize(720, 540)
                 .centerCrop()
                 .into(dojo_image);
+
+
 
         welcome_back_user = findViewById(R.id.welcome_back_user_textView);
 
@@ -106,13 +120,20 @@ public class WelcomeBackActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),DojoActivity.class));
 
 
-
-
             }
         });
 
+        if(currentUser != null){
 
-        SetupRecyclerView();
+            SetupRecyclerView();
+
+        }
+
+        else{
+            RecyclerView recyclerView = findViewById(R.id.welcome_back_recycler_view);
+            recyclerView.setVisibility(View.INVISIBLE);
+        }
+
         SetupBottomNavigationView();
     }
 

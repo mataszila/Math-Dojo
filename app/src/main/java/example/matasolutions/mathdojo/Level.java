@@ -22,6 +22,10 @@ public class Level implements Parcelable {
 
     public Level(){
 
+    }
+
+    public Level(LevelType type){
+
         levelNumber = 1;
         totalXP = new Double(0);
 
@@ -30,6 +34,8 @@ public class Level implements Parcelable {
         totalXP_until_next_level = new Double(10);
 
         starting_xpLeft = new Double(10);
+
+        levelType = type;
 
         previous_xpLeft = starting_xpLeft;
 

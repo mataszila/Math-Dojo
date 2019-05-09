@@ -109,6 +109,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void SetupViews(){
 
+        setTitle(profile.username);
+
         profile_ranking = findViewById(R.id.profile_ranking);
 
         DetermineUserRanking();

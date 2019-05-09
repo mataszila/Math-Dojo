@@ -11,4 +11,6 @@
         android:id="@+id/high_scores_navbar_most_XP"
         android:icon="@drawable/ic_outline_trending_up_24px"
         android:title="MOST XP" />
+
+
 </menu>

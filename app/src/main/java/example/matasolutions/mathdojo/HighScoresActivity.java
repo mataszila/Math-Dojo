@@ -146,9 +146,7 @@ public class HighScoresActivity extends AppCompatActivity {
                 }
 
 
-
             }
-
 
 
         }

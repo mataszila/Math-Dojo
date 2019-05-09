@@ -2,15 +2,20 @@ package example.matasolutions.mathdojo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -18,13 +23,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jaredrummler.materialspinner.MaterialSpinner;
+
+import java.util.ArrayList;
 
 public class SummaryActivity extends AppCompatActivity {
 
     GameStatistics stats;
 
     TextView total_points_textview;
-    TextView summary_action_textview;
 
     FirebaseUser user;
     FirebaseAuth mAuth;
@@ -43,6 +50,9 @@ public class SummaryActivity extends AppCompatActivity {
 
     CurrentQuestion lastQuestion;
 
+    RecyclerView summary_recyclerview;
+
+    BottomNavigationView bottomNavigationView;
 
     LinearLayout layout;
     @Override
@@ -57,6 +67,8 @@ public class SummaryActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+
+
 
 
         ReadData(new MyProfileCallback() {
@@ -78,6 +90,45 @@ public class SummaryActivity extends AppCompatActivity {
 
 
     }
+
+    private void SetupBottomNavigationView(){
+
+        bottomNavigationView = findViewById(R.id.summary_bottom_navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                int menuId = menuItem.getItemId();
+
+                switch(menuId){
+
+                    case R.id.summary_nav_high_scores:
+                        finish();
+                        Intent intent = new Intent(getApplicationContext(),HighScoresActivity.class);
+                        startActivity(intent);
+
+                        break;
+                    case R.id.summary_nav_profile:
+                        finish();
+                        Intent intent_profile = new Intent(getApplicationContext(),Profile.class);
+                        intent_profile.putExtra("profile",profile);
+                        startActivity(intent_profile);
+                        break;
+                    case R.id.summary_nav_home:
+                        Intent home = new Intent(getApplicationContext(),WelcomeBackActivity.class);
+                        home.putExtra("profile",profile);
+                        startActivity(home);
+                        break;
+                }
+
+                return false;
+            }
+        });
+
+    }
+
+
 
     public void AssignXP(){
 
@@ -136,12 +187,6 @@ public class SummaryActivity extends AppCompatActivity {
 
 
 
-
-
-        summary_action_textview = findViewById(R.id.summary_action_textview);
-
-        summary_action_textview.setText(SetSummaryText());
-
         last_question_textview.setText(SetLastQuestionText());
 
         startAgainButton = findViewById(R.id.summary_start_again_button);
@@ -158,24 +203,31 @@ public class SummaryActivity extends AppCompatActivity {
             }
         });
 
-        highScoresButton = findViewById(R.id.summary_high_scores_button);
-
-        highScoresButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-                Intent intent = new Intent(getApplicationContext(),HighScoresActivity.class);
-                startActivity(intent);
-
-            }
-        });
 
 
-        userStatsTextView = findViewById(R.id.summary_user_stats);
-        userStatsTextView.setText(FormatStatsText(profile));
+        SetupRecyclerView();
+        SetupBottomNavigationView();
+
+    }
+
+    private void SetupRecyclerView(){
+
+            ArrayList<Level> levels = new ArrayList<>();
+
+            levels.add(profile.levels.playerLevel);
+            levels.add(profile.levels.skill_add_level);
+            levels.add(profile.levels.skill_subtract_level);
+            levels.add(profile.levels.skill_multiplication_level);
 
 
+            RecyclerView recyclerView = findViewById(R.id.summary_recycler_view);
+            MyProfileAdapter myAdapter = new MyProfileAdapter(levels,getApplicationContext());
+
+            LinearLayoutManager linearLayoutManager = new  LinearLayoutManager(this);
+
+            recyclerView.setLayoutManager(linearLayoutManager);
+
+            recyclerView.setAdapter(myAdapter);
 
 
     }

@@ -23,15 +23,10 @@ public class Levels implements Parcelable,Serializable {
 
         if(newPlayer){
 
-            playerLevel = new Level();
-            skill_add_level = new Level();
-            skill_subtract_level = new Level();
-            skill_multiplication_level = new Level();
-
-            playerLevel.levelType = LevelType.OVERALL;
-            skill_add_level.levelType = LevelType.SKILL_ADD;
-            skill_subtract_level.levelType = LevelType.SKILL_SUBTRACT;
-            skill_multiplication_level.levelType = LevelType.SKILL_MULTIPLICATION;
+            playerLevel = new Level(LevelType.OVERALL);
+            skill_add_level = new Level(LevelType.SKILL_ADD);
+            skill_subtract_level = new Level(LevelType.SKILL_SUBTRACT);
+            skill_multiplication_level = new Level(LevelType.SKILL_MULTIPLICATION);
         }
     }
 

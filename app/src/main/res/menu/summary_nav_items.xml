@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/welcome_back_nav_high_scores"
+        android:id="@+id/summary_nav_high_scores"
         android:icon="@drawable/ic_round_bar_chart_24px"
         android:title="HIGH SCORES" />
     <item
-        android:id="@+id/welcome_back_nav_profile"
+        android:id="@+id/summary_nav_profile"
         android:icon="@drawable/ic_round_person_24px"
         android:title="PROFILE" />
     <item
-        android:id="@+id/welcome_back_nav_high_logout"
+        android:id="@+id/summary_nav_home"
         android:icon="@drawable/ic_round_exit_to_app_24px"
-        android:title="LOGOUT" />
+        android:title="HOME" />
 </menu>
