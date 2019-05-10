@@ -1,3 +1,8 @@
+/* CSC3095 Portfolio Part 2
+ * 2019-05-06
+ * Author : Matas Zilaitis
+ */
+
 package example.matasolutions.mathdojo;
 
 import android.os.Parcel;
@@ -30,45 +35,14 @@ public class CurrentQuestion implements Parcelable {
 
     public long min;
 
-
     ArrayList<Long> list;
-
-
-
-    public Long getMin() {
-        return min;
-    }
-
-    public void setMin(Double min) {
-
-        int set = min.intValue();
-
-
-        this.min = set;
-    }
-
-    public Long getMax() {
-        return max;
-    }
-
-    public void setMax(Long max) {
-
-        Long set = max;
-        this.max = set;
-    }
 
     public Long max;
 
-
-
-
-
-
-
-
-
-
-
+    // This class handles one question. It generates
+    // question type, question numbers and answer numbers,
+    // which are displayed on the button. This class is called by
+    // DojoActivity, which calls this class once the user clicks a button.
 
 
     public CurrentQuestion(int question_number,Long min, Long max){
@@ -82,13 +56,9 @@ public class CurrentQuestion implements Parcelable {
 
     }
 
-
+    //Generates a new question with random numbers
 
     private void GenerateNewQuestion(){
-
-        String formatted_question = " ";
-
-        Random rn = new Random();
 
         number_one =   min + (long) (Math.random() * (max - min));
 
@@ -122,9 +92,10 @@ public class CurrentQuestion implements Parcelable {
         return sb.toString();
     }
 
-    public void updateAnswers(Long min,Long max){
-        Random rn = new Random();
 
+
+
+    public void updateAnswers(Long min,Long max){
         answer_one = min + (long) (Math.random() * (max - min));
         answer_two = min + (long) (Math.random() * (max - min));
         answer_three = min + (long) (Math.random() * (max - min));
@@ -134,6 +105,8 @@ public class CurrentQuestion implements Parcelable {
 
 
     }
+
+    // Makes sure that  no equal answer numbers are generated.
 
     public void reshuffleList(){
 
@@ -150,7 +123,6 @@ public class CurrentQuestion implements Parcelable {
                 Long second = list.get(j);
 
                 if(first == second){
-
 
                     switch (i){
                         case 0:
@@ -173,20 +145,13 @@ public class CurrentQuestion implements Parcelable {
 
                 }
 
-
-
-
             }
-
 
         }
         list.clear();
 
 
-
-
     }
-
 
 
     public void Generate_ADD(Long min, Long max){
@@ -197,12 +162,7 @@ public class CurrentQuestion implements Parcelable {
         updateAnswers(min*2,max*2);
 
 
-
-
     }
-
-
-
 
 
 
@@ -234,6 +194,7 @@ public class CurrentQuestion implements Parcelable {
     }
 
 
+    // Generates a question type using random numbers.
 
     private QuestionType GenerateQuestionType(){
 
@@ -242,7 +203,7 @@ public class CurrentQuestion implements Parcelable {
         Random rn = new Random();
 
         int min = 1;
-        int max = 4;
+        int max = 3;
 
         int selected_number = rn.nextInt(max-min+1) + min;
 

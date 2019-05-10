@@ -1,3 +1,9 @@
+/* CSC3095 Portfolio Part 2
+ * 2019-05-08
+ * Author : Matas Zilaitis
+ */
+
+
 package example.matasolutions.mathdojo;
 
 import java.util.ArrayList;
@@ -5,6 +11,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+
+// This class generates a list of countries  and gets it ready for other classes to use.
+
 
 public class Countries {
 

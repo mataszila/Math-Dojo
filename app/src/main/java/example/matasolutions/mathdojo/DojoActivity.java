@@ -1,3 +1,8 @@
+/* CSC3095 Portfolio Part 2
+ * 2019-05-07
+ * Author : Matas Zilaitis
+ */
+
 package example.matasolutions.mathdojo;
 
 import androidx.annotation.NonNull;
@@ -52,12 +57,6 @@ public class DojoActivity extends AppCompatActivity {
 
     CountDownTimer timer;
 
-
-    static public int interval = 10;
-    static int delay = 1000;
-    static int period = 1000;
-
-
     BottomNavigationView bottomNavigationView;
 
     @Override
@@ -69,6 +68,9 @@ public class DojoActivity extends AppCompatActivity {
         return true;
 
     }
+
+    // This class handles the gameplay, checks whether the answers are correct,
+    // keeps the score, takes user to the new question or the summary page.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +102,6 @@ public class DojoActivity extends AppCompatActivity {
 
         startNewGame();
 
-
-
     }
 
 
@@ -119,10 +119,7 @@ public class DojoActivity extends AppCompatActivity {
 
         }
 
-
-
-
-
+    // Starts new game and starts recording game statistics.
 
     private void startNewGame(){
 
@@ -134,6 +131,9 @@ public class DojoActivity extends AppCompatActivity {
 
     }
 
+    // Picks a random answer from the list, which is placed on the button
+    // Prevents the same button being the correct one over and over again
+
     private Long PickRandomAnswer(){
 
         Random rn = new Random();
@@ -144,7 +144,6 @@ public class DojoActivity extends AppCompatActivity {
         int index = rn.nextInt(max - min + 1 ) + min ;
 
 
-
         Long ans = answers.get(index);
 
         answers.remove(index);
@@ -153,6 +152,7 @@ public class DojoActivity extends AppCompatActivity {
 
     }
 
+    // Starts a new question for a first time and when the user answers correctly.
 
     private void startNewQuestion(){
 
@@ -206,8 +206,6 @@ public class DojoActivity extends AppCompatActivity {
                     CalculateAnswer(answer_four_button);
                 }
 
-
-
             }
         };
 
@@ -216,9 +214,10 @@ public class DojoActivity extends AppCompatActivity {
         answer_three_button.setOnClickListener(onClickListener);
         answer_four_button.setOnClickListener(onClickListener);
 
-
-
     }
+
+
+    // Checks whether user's answer is correct.
 
     private void CalculateAnswer(Button button){
 
@@ -261,9 +260,9 @@ public class DojoActivity extends AppCompatActivity {
             endTheGame();
         }
 
-
-
     }
+
+    //Increases the boundaries for random numbers with every question.
 
     private void increaseMinMax(){
 
@@ -275,19 +274,16 @@ public class DojoActivity extends AppCompatActivity {
 
         }
 
-
         Double newMin = new Double(min * multiplier);
         Double newMax = new Double(max * multiplier);
 
         min = newMin.longValue();
         max = newMax.longValue();
 
-
-
     }
 
 
-
+    //Called if user answers incorrectly, user is taken to the summary activity.
     private void endTheGame(){
         timer.cancel();
 

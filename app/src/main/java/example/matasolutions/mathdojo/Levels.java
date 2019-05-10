@@ -1,3 +1,8 @@
+/* CSC3095 Portfolio Part 2
+ * 2019-05-07
+ * Author : Matas Zilaitis
+ */
+
 package example.matasolutions.mathdojo;
 
 
@@ -5,6 +10,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
+
+// This class is stored in the database as all user's level related data.
 
 public class Levels implements Parcelable,Serializable {
 

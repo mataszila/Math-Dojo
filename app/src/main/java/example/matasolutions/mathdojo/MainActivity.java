@@ -1,3 +1,8 @@
+/* CSC3095 Portfolio Part 2
+ * 2019-05-06
+ * Author : Matas Zilaitis
+ */
+
 package example.matasolutions.mathdojo;
 
 import androidx.annotation.NonNull;
@@ -34,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private TextView register;
+
+    // This class is the first screen that the user sees if they are not logged in with the application.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         else{
+            //If the user is logged in, the app simply takes them to the welcome activity.
 
             Toast.makeText(this, "Welcome back " + currentUser.getEmail() , Toast.LENGTH_LONG);
             finish();
@@ -85,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    //This method logins the user through the FirebaseAuth
 
     public void LoginUser() {
         String Email = email.getText().toString().trim();

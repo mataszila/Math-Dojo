@@ -1,3 +1,9 @@
+/* CSC3095 Portfolio Part 2
+ * 2019-05-07
+ * Author : Matas Zilaitis
+ */
+
+
 package example.matasolutions.mathdojo;
 
 import android.os.Parcel;
@@ -24,6 +30,8 @@ public class Level implements Parcelable {
 
     }
 
+    // This class is responsible for handling one level
+
     public Level(LevelType type){
 
         levelNumber = 1;
@@ -42,6 +50,8 @@ public class Level implements Parcelable {
         xpLeft = starting_xpLeft;
 
     }
+
+    // This method is responsible for increasing user level.
 
     public void LevelUp(){
 
@@ -65,6 +75,9 @@ public class Level implements Parcelable {
 
 
     }
+
+
+
 
     public void addXP(double add){
         totalXP += add;

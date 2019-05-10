@@ -1,7 +1,15 @@
+/* CSC3095 Portfolio Part 2
+ * 2019-05-09
+ * Author : Matas Zilaitis
+ */
+
 package example.matasolutions.mathdojo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+//This class keeps track of user statistics throughout one game.
+//These values are used to calculate user XP and levels.
 
 public class GameStatistics implements Parcelable {
 
@@ -11,28 +19,6 @@ public class GameStatistics implements Parcelable {
     public int division_correct_count;
 
     public int totalCount;
-
-
-    public void correct_addition(){
-        addition_correct_count++;
-        totalCount++;
-    }
-
-    public void correct_subtraction(){
-        subtraction_correct_count++;
-        totalCount++;
-
-    }
-    public void correct_multiplication(){
-        multiplication_correct_count++;
-        totalCount++;
-
-    }
-
-    public void correct_division(){
-        //division_correct_count++;
-        totalCount++;
-    }
 
 
 

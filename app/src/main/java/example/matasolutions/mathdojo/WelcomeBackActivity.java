@@ -1,3 +1,8 @@
+/* CSC3095 Portfolio Part 2
+ * 2019-05-06
+ * Author : Matas Zilaitis
+ */
+
 package example.matasolutions.mathdojo;
 
 import androidx.annotation.NonNull;
@@ -30,14 +35,14 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+// This is the screen that the user sees when they log in with the application.
+// Main activity of the application, allows user to access all pages from here
+
 public class WelcomeBackActivity extends AppCompatActivity {
 
 
     TextView welcome_back_user;
     Button proceed;
-    Button logout;
-    Button profile_button;
-    Button high_scores;
 
     ImageView dojo_image;
 
@@ -52,8 +57,6 @@ public class WelcomeBackActivity extends AppCompatActivity {
 
     LinearLayout layout;
 
-
-    TextView user_level_text;
     RelativeLayout loading;
 
 
@@ -196,26 +199,6 @@ public class WelcomeBackActivity extends AppCompatActivity {
 
 
     }
-
-    public String FormatStatsText(Profile profile){
-
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("Overall level: " + profile.levels.playerLevel.levelNumber + " \n");
-        sb.append(profile.levels.playerLevel.totalXP + "/" + profile.levels.playerLevel.totalXP_until_next_level + "XP" + " \n");
-
-        sb.append("Addition level: " + profile.levels.skill_add_level.levelNumber + " \n");
-        sb.append(profile.levels.skill_add_level.totalXP + "/" + profile.levels.skill_add_level.totalXP_until_next_level + "XP" + " \n");
-
-        sb.append("Subtraction level: " + profile.levels.skill_subtract_level.levelNumber + " \n");
-        sb.append(profile.levels.skill_subtract_level.totalXP + "/" + profile.levels.skill_subtract_level.totalXP_until_next_level + "XP" + " \n");
-
-        sb.append("Multiplication level: " + profile.levels.skill_multiplication_level.levelNumber + " \n");
-        sb.append(profile.levels.skill_multiplication_level.totalXP + "/" + profile.levels.skill_multiplication_level.totalXP_until_next_level + "XP");
-
-        return sb.toString();
-    }
-
 
 
     void ReadData(final MyProfileCallback myCallback){

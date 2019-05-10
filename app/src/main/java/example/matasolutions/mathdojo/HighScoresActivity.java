@@ -1,3 +1,8 @@
+/* CSC3095 Portfolio Part 2
+ * 2019-05-07
+ * Author : Matas Zilaitis
+ */
+
 package example.matasolutions.mathdojo;
 
 import androidx.annotation.NonNull;
@@ -35,7 +40,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class HighScoresActivity extends AppCompatActivity {
+
+//This class is responsible for displaying high scores to the user
+
+    public class HighScoresActivity extends AppCompatActivity {
 
     FirebaseDatabase database;
     DatabaseReference myRef;
@@ -97,12 +105,17 @@ public class HighScoresActivity extends AppCompatActivity {
 
                 switch(menuId){
 
+                    //Displays who scored most points in a single game
+
                     case R.id.high_scores_navbar_most_points:
                         setTitle("High Scores:  Most points in a single game");
 
                         SetupMostPointsRecyclerView();
 
                         break;
+
+                    //Displays who has most XP
+
                     case R.id.high_scores_navbar_most_XP:
                         setTitle("High Scores: Most XP");
 
@@ -126,6 +139,8 @@ public class HighScoresActivity extends AppCompatActivity {
         });
 
     }
+
+    // Returns a list of profiles filtered by a given country
 
     public ArrayList<Profile> Filtered_XP_ByCountry_List(String country){
 
@@ -155,24 +170,6 @@ public class HighScoresActivity extends AppCompatActivity {
 
     }
 
-
-    public void SortByLevel(){
-
-        Collections.sort(profileList, new Comparator<Profile>() {
-            @Override
-            public int compare(Profile lhs, Profile rhs) {
-                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-
-                double p1 = lhs.levels.playerLevel.levelNumber;
-                double p2 = rhs.levels.playerLevel.levelNumber;
-
-
-                return Double.compare(p2, p1);
-            }
-        });
-
-
-    }
 
 
     public void SetupActivity(){
@@ -244,7 +241,7 @@ public class HighScoresActivity extends AppCompatActivity {
     }
 
 
-
+    //Sorts a list from highest to lowest. Will have to be refactored.
 
     public void SortHighScores() {
 
@@ -263,7 +260,10 @@ public class HighScoresActivity extends AppCompatActivity {
 
     }
 
-    public void SortHighScores_Levels() {
+        //Sorts a list from highest to lowest. Will have to be refactored.
+
+
+        public void SortHighScores_Levels() {
 
         Collections.sort(profileList, new Comparator<Profile>() {
             @Override
@@ -279,6 +279,7 @@ public class HighScoresActivity extends AppCompatActivity {
 
     }
 
+    //Reads a list of score entries and profiles from the database
 
     void ReadData(final MyHighScoresCallback myCallback){
 
@@ -301,6 +302,8 @@ public class HighScoresActivity extends AppCompatActivity {
         });
 
     }
+
+    //Converts database HashMap to a list
 
     public ArrayList<ScoreEntry> ConvertSnapshot(DataSnapshot snapshot){
 
@@ -334,6 +337,8 @@ public class HighScoresActivity extends AppCompatActivity {
 
 
     }
+
+    //Adapter for displaying a list of items
 
     public static class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         private ArrayList<ScoreEntry> mDataset;

@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+//This class defines an adapter and view holder for profile level stats view.
+
 public class MyProfileAdapter extends RecyclerView.Adapter<MyProfileAdapter.MyViewHolder> {
     private ArrayList<Level> mDataset;
     private Context context;

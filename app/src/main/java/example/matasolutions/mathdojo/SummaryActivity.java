@@ -1,3 +1,8 @@
+/* CSC3095 Portfolio Part 2
+ * 2019-05-07
+ * Author : Matas Zilaitis
+ */
+
 package example.matasolutions.mathdojo;
 
 import androidx.annotation.NonNull;
@@ -42,19 +47,17 @@ public class SummaryActivity extends AppCompatActivity {
     Profile profile;
 
     Button startAgainButton;
-    Button highScoresButton;
-
-    TextView userStatsTextView;
 
     TextView last_question_textview;
 
     CurrentQuestion lastQuestion;
 
-    RecyclerView summary_recyclerview;
-
     BottomNavigationView bottomNavigationView;
 
     LinearLayout layout;
+
+    //This class is displayed when the user loses the game.
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +70,6 @@ public class SummaryActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-
-
 
 
         ReadData(new MyProfileCallback() {
@@ -86,9 +87,6 @@ public class SummaryActivity extends AppCompatActivity {
             }
         });
 
-
-
-
     }
 
     private void SetupBottomNavigationView(){
@@ -104,18 +102,18 @@ public class SummaryActivity extends AppCompatActivity {
                 switch(menuId){
 
                     case R.id.summary_nav_high_scores:
-                        finish();
                         Intent intent = new Intent(getApplicationContext(),HighScoresActivity.class);
                         startActivity(intent);
 
                         break;
                     case R.id.summary_nav_profile:
                         finish();
-                        Intent intent_profile = new Intent(getApplicationContext(),Profile.class);
+                        Intent intent_profile = new Intent(getApplicationContext(),ProfileActivity.class);
                         intent_profile.putExtra("profile",profile);
                         startActivity(intent_profile);
                         break;
                     case R.id.summary_nav_home:
+                        finish();
                         Intent home = new Intent(getApplicationContext(),WelcomeBackActivity.class);
                         home.putExtra("profile",profile);
                         startActivity(home);
@@ -129,6 +127,8 @@ public class SummaryActivity extends AppCompatActivity {
     }
 
 
+
+    //Adds user XP and updates the entry in the database.
 
     public void AssignXP(){
 
@@ -247,24 +247,6 @@ public class SummaryActivity extends AppCompatActivity {
 
     }
 
-    public String FormatStatsText(Profile profile){
-
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("Overall level: " + profile.levels.playerLevel.levelNumber + " \n");
-        sb.append(profile.levels.playerLevel.totalXP+( (long) stats.totalCount*0.25) + "/" + profile.levels.playerLevel.totalXP_until_next_level + "XP" + " \n");
-
-        sb.append("Addition level: " + profile.levels.skill_add_level.levelNumber + " \n");
-        sb.append(profile.levels.skill_add_level.totalXP+stats.addition_correct_count + "/" + profile.levels.skill_add_level.totalXP_until_next_level + "XP" + " \n");
-
-        sb.append("Subtraction level: " + profile.levels.skill_subtract_level.levelNumber + " \n");
-        sb.append(profile.levels.skill_subtract_level.totalXP+stats.subtraction_correct_count + "/" + profile.levels.skill_subtract_level.totalXP_until_next_level + "XP" + " \n");
-
-        sb.append("Multiplication level: " + profile.levels.skill_multiplication_level.levelNumber + " \n");
-        sb.append(profile.levels.skill_multiplication_level.totalXP+stats.multiplication_correct_count + "/" + profile.levels.skill_multiplication_level.totalXP_until_next_level + "XP");
-
-        return sb.toString();
-    }
 
 
     void ReadData(final MyProfileCallback myCallback){
@@ -287,32 +269,5 @@ public class SummaryActivity extends AppCompatActivity {
 
     }
 
-    private Profile ConvertSnapshot(DataSnapshot snapshot){
-
-        profile =  snapshot.getValue(Profile.class);
-
-        for (DataSnapshot snap: snapshot.getChildren()) {
-            profile.levels = (Levels) snap.child("levels").getValue();
-            profile.userID = (String) snap.child("userID").getValue();
-        }
-
-        return profile;
-
-    }
-
-
-
-    private String SetSummaryText(){
-
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("Addition: " + stats.addition_correct_count + "\n");
-        sb.append("Subtraction: " + stats.subtraction_correct_count + "\n");
-        sb.append("Multiplication: " + stats.multiplication_correct_count + "\n");
-
-
-
-        return  sb.toString();
-    }
 
 }

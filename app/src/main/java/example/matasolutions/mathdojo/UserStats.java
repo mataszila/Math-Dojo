@@ -1,9 +1,17 @@
+/* CSC3095 Portfolio Part 2
+ * 2019-05-09
+ * Author : Matas Zilaitis
+ */
+
+
 package example.matasolutions.mathdojo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class UserStats implements Parcelable {
+
+    //Responsible for storing user records and stats in the database;
 
     public int total_points;
     public int total_points_global_ranking;

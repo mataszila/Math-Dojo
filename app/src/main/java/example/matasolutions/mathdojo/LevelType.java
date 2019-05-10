@@ -1,3 +1,8 @@
+/* CSC3095 Portfolio Part 2
+ * 2019-05-08
+ * Author : Matas Zilaitis
+ */
+
 package example.matasolutions.mathdojo;
 
 public enum LevelType{

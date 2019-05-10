@@ -1,3 +1,9 @@
+/* CSC3095 Portfolio Part 2
+ * 2019-05-06
+ * Author : Matas Zilaitis
+ */
+
+
 package example.matasolutions.mathdojo;
 
 import androidx.annotation.NonNull;
@@ -40,6 +46,9 @@ public class SignupActivity extends AppCompatActivity {
     private DatabaseReference myRef;
     boolean success_register;
     private String selected_country;
+
+    // This class handles signing up to the app.
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +116,7 @@ public class SignupActivity extends AppCompatActivity {
 
     }
 
+    //This class registers the user through the FirebaseAuth
 
     public void RegisterUser(final Context context){
         String Email = email.getText().toString().trim();

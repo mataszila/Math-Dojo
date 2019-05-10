@@ -1,3 +1,8 @@
+/* CSC3095 Portfolio Part 2
+ * 2019-05-09
+ * Author : Matas Zilaitis
+ */
+
 package example.matasolutions.mathdojo;
 
 import androidx.annotation.NonNull;
@@ -26,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.FormatFlagsConversionMismatchException;
+
+// This class shows user-related info
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -68,16 +75,15 @@ public class ProfileActivity extends AppCompatActivity {
 
         profile = getIntent().getParcelableExtra("profile");
 
-
         mAuth = FirebaseAuth.getInstance();
 
         user = mAuth.getCurrentUser();
 
         SetupViews();
 
-
-
     }
+
+    // This class deteremines the ranking of user's highest score worldwide.
 
     private void DetermineUserRanking(){
 
@@ -155,6 +161,8 @@ public class ProfileActivity extends AppCompatActivity {
         recyclerView.setAdapter(myAdapter);
 
     }
+
+    // Reads profile from the database.
 
     void ReadData(final MyHighScoresCallback myCallback){
 
